@@ -2,9 +2,8 @@
   "Author": "Berna",
   "Name": "Congratulations",
   "Punchline": "Get aurally rewarded when you get commended on duties.",
-  "Description": "Get aurally rewarded when you get commended on duties.",
+  "Description": "Get aurally rewarded when you get commended on duties.\n\nComes with default sounds for when you get commended by 1/3, 2/3, 3/3 or all seven members of the duty you were in.\nThe fractioned values are in relation to how many of those members could commend you (i.e. excluding those that were in your party before joining the duty), but you can set custom sounds for each type of trigger by opening /congratsconfig.",
   "InternalName": "Congratulations",
-  "IconUrl": "https://raw.githubusercontent.com/goatcorp/DalamudPluginsD17/main/testing/live/Tf2CriticalHitsPlugin/images/icon.png",
   "ApplicableVersion": "any",
   "Tags": [
     "plugin",
