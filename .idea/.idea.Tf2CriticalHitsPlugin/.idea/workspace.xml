@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c0b60a6f-cb5c-49ba-aa41-99bed4be0bde" name="Changes" comment="" />
+    <list default="true" id="c0b60a6f-cb5c-49ba-aa41-99bed4be0bde" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tf2CriticalHitsPlugin/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tf2CriticalHitsPlugin/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Congratulations/Configuration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Congratulations/Configuration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,6 +70,14 @@
       <updated>1675029203631</updated>
       <workItem from="1675029204860" duration="7738000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial commit.">
+      <created>1675038224816</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1675038224816</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -86,5 +98,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Initial commit." />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial commit." />
   </component>
 </project>

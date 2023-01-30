@@ -29,8 +29,9 @@ namespace Congratulations
 
         public readonly WindowSystem WindowSystem = new("Congratulations");
 
-        private short lastCommendationCount = 0;
-        private int lastPartySize = 0;
+        private short lastCommendationCount;
+        private int largestPartySize;
+        private int currentPartySize;
 
         public CongratulationsPlugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
@@ -60,39 +61,76 @@ namespace Congratulations
             this.lastCommendationCount = GetCurrentCommendationCount();
             PluginLog.LogDebug("Starting commendations: {0}", lastCommendationCount);
 
-            lastPartySize = PartyList.Length;
-            PluginLog.LogDebug("Starting party size: {0}", lastPartySize);
+            largestPartySize = GetCurrentPartySize();
+            PluginLog.LogDebug("Starting party size: {0}", largestPartySize);
             ClientState.TerritoryChanged += OnTerritoryChange;
+            Framework.Update += OnUpdate;
         }
-        
+
+        private void OnUpdate(Framework framework)
+        {
+            var currentPartySize = GetCurrentPartySize();
+            if (currentPartySize > largestPartySize)
+            {
+                PluginLog.LogDebug("Party grew from {0} to {1}", largestPartySize, currentPartySize);
+            }
+            largestPartySize = Math.Max(largestPartySize, GetCurrentPartySize());
+        }
+
         private void OnTerritoryChange(object? sender, ushort @ushort)
         {
             PluginLog.LogDebug("territory changed");
             if (!ClientState.IsLoggedIn) return;
             var currentCommendationCount = GetCurrentCommendationCount();
             var currentPartySize = GetCurrentPartySize();
-            if (lastPartySize != currentPartySize)
-            {
-                PluginLog.Debug("Party size changed from {0} to {1}", lastPartySize, currentPartySize);
-            }
+            PluginLog.Debug("Party size reset from {0} to {1}", largestPartySize, currentPartySize);
             if (currentCommendationCount > lastCommendationCount)
             {
                 PluginLog.Debug("Commends changed from {0} to {1}", lastCommendationCount, currentCommendationCount);
-                lastCommendationCount = currentCommendationCount;
+                PlayCongratulations(largestPartySize - currentPartySize, currentCommendationCount - lastCommendationCount);
+                
             }
-
-            lastPartySize = currentPartySize;
+            lastCommendationCount = currentCommendationCount;
+            largestPartySize = currentPartySize;
         }
 
         private int GetCurrentPartySize()
         {
-            return PartyList.Length;
+            // PartyList.Length returns 0 if the player is alone,
+            // so we change it to 1 manually if that's the case.
+            return Math.Max(PartyList.Length, 1);
         }
 
-        private unsafe short GetCurrentCommendationCount()
+
+        private static unsafe short GetCurrentCommendationCount()
         {
             // Change this when PlayerState.Instance()->PlayerCommendations offset is updated
             return Marshal.ReadInt16((nint)PlayerState.Instance() + 0x478);
+        }
+
+        private void PlayCongratulations(int numberOfMatchMadePlayers, int commendsObtained)
+        {
+            PluginLog.LogDebug("Playing sound for {0} commends obtained of a maximum of {1}", commendsObtained, numberOfMatchMadePlayers);
+            void Func(Configuration.SubConfiguration config) => SoundEngine.PlaySound(config.getFilePath(), config.Volume);
+            if (commendsObtained == 7)
+            {
+                Func(Configuration.AllSevenInAFullParty);
+            }
+            else
+            {
+                switch (commendsObtained)
+                {
+                    case >= 3:
+                        Func(Configuration.ThreeThirds);
+                        break;
+                    case 2:
+                        Func(Configuration.TwoThirds);
+                        break;
+                    case 1:
+                        Func(Configuration.OneThird);
+                        break;
+                }
+            }
         }
 
 
@@ -101,6 +139,7 @@ namespace Congratulations
             this.WindowSystem.RemoveAllWindows();
             this.CommandManager.RemoveHandler(CommandName);
             ClientState.TerritoryChanged -= OnTerritoryChange;
+            Framework.Update -= OnUpdate;
         }
 
         private void OnConfigCommand(string command, string args)

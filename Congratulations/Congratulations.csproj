@@ -64,4 +64,18 @@
     </Reference>
   </ItemGroup>
 
+<ItemGroup>
+    <None Update="Sounds\one-third.mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Sounds\two-thirds.mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Sounds\three-thirds.mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Sounds\all-seven.mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+</ItemGroup>
 </Project>

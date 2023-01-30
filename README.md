@@ -1,6 +1,6 @@
-# TF2-ish Critical Hits
+# Congratulations Plugin
 
-Love dealing critical hits in Final Fantasy XIV, but you feel there's some... **_oomph_** missing?
+Get aurally rewarded when you get commended on duties.
 
-Worry no more! With the **TF2-ish Critical Hits** plugins you can (almost) reproduce the experience of dealing Critical
-Hits and Mini Crits in the #1 hat simulator, Team Fortress 2!
+## Attribution
+1/3 of party commend sound: https://freesound.org/people/TurboFool/sounds/561020/
