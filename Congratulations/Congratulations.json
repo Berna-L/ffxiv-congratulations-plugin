@@ -1,0 +1,13 @@
+{
+  "Author": "Berna",
+  "Name": "Congratulations",
+  "Punchline": "Get aurally rewarded when you get commended on duties.",
+  "Description": "Get aurally rewarded when you get commended on duties.",
+  "InternalName": "Congratulations",
+  "IconUrl": "https://raw.githubusercontent.com/goatcorp/DalamudPluginsD17/main/testing/live/Tf2CriticalHitsPlugin/images/icon.png",
+  "ApplicableVersion": "any",
+  "Tags": [
+    "plugin",
+    "audio"
+  ]
+}
