@@ -32,6 +32,7 @@ namespace Congratulations
         private short lastCommendationCount;
         private int largestPartySize;
         private int currentPartySize;
+        private int lastAreaPartySize;
 
         public CongratulationsPlugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
@@ -61,7 +62,8 @@ namespace Congratulations
             this.lastCommendationCount = GetCurrentCommendationCount();
             PluginLog.LogDebug("Starting commendations: {0}", lastCommendationCount);
 
-            largestPartySize = GetCurrentPartySize();
+            currentPartySize = GetCurrentPartySize();
+            largestPartySize = currentPartySize;
             PluginLog.LogDebug("Starting party size: {0}", largestPartySize);
             ClientState.TerritoryChanged += OnTerritoryChange;
             Framework.Update += OnUpdate;
@@ -69,7 +71,10 @@ namespace Congratulations
 
         private void OnUpdate(Framework framework)
         {
-            var currentPartySize = GetCurrentPartySize();
+            currentPartySize = GetCurrentPartySize();
+            if (lastAreaPartySize == 0 && currentPartySize > 0) {
+                lastAreaPartySize = currentPartySize;
+            }
             if (currentPartySize > largestPartySize)
             {
                 PluginLog.LogDebug("Party grew from {0} to {1}", largestPartySize, currentPartySize);
@@ -82,15 +87,17 @@ namespace Congratulations
             PluginLog.LogDebug("territory changed");
             if (!ClientState.IsLoggedIn) return;
             var currentCommendationCount = GetCurrentCommendationCount();
-            var currentPartySize = GetCurrentPartySize();
-            PluginLog.Debug("Party size reset from {0} to {1}", largestPartySize, currentPartySize);
+            
             if (currentCommendationCount > lastCommendationCount)
             {
                 PluginLog.Debug("Commends changed from {0} to {1}", lastCommendationCount, currentCommendationCount);
-                PlayCongratulations(largestPartySize - currentPartySize, currentCommendationCount - lastCommendationCount);
+                PlayCongratulations(largestPartySize - lastAreaPartySize, currentCommendationCount - lastCommendationCount);
                 
             }
             lastCommendationCount = currentCommendationCount;
+            lastAreaPartySize = currentPartySize;
+            currentPartySize = GetCurrentPartySize();
+            PluginLog.Debug("Party size reset from {0} to {1}", largestPartySize, currentPartySize);
             largestPartySize = currentPartySize;
         }
 
