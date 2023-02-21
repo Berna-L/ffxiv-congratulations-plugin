@@ -28,7 +28,8 @@ namespace Congratulations
             private readonly string defaultFileName;
 
             public string? CustomFilePath;
-            public int Volume = 12;
+            public int Volume = 100;
+            public bool ApplySfxVolume = true;
 
             public SubConfiguration(string sectionTitle, string defaultFileName)
             {

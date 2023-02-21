@@ -64,14 +64,22 @@ public class ConfigWindow : Window, IDisposable
             ImGui.SameLine();
             if (ImGuiComponents.IconButton(FontAwesomeIcon.Play))
             {
-                SoundEngine.PlaySound(config.GetFilePath(), config.Volume * 0.01f);
+                SoundEngine.PlaySound(config.GetFilePath(), config.ApplySfxVolume, config.Volume * 0.01f);
             }
-
+            
             if (ImGui.IsItemHovered())
             {
                 ImGui.SetTooltip("Preview sound on current volume");
             }
-
+            var applySfxVolume = config.ApplySfxVolume;
+            if (ImGui.Checkbox("Affected by the game's sound effects volume", ref applySfxVolume))
+            {
+                config.ApplySfxVolume = applySfxVolume;
+            }
+            ImGui.SameLine();
+            ImGuiComponents.HelpMarker("If enabled, consider the volume set here to be in relation to the game's other SFX," +
+                                       "\nsince the effective volume will also vary with your Master and Sound Effects volume." +
+                                       "\nIf disabled, It'll always play at the set volume, even if the game is muted internally.");
 
             var useCustomSound = config.UseCustomSound;
             if (ImGui.Checkbox("Use custom sound", ref useCustomSound))

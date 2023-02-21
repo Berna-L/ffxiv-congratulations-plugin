@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using Dalamud.Game.Command;
 using Dalamud.Plugin;
 using Congratulations.Windows;
@@ -114,14 +113,14 @@ namespace Congratulations
         {
             return PlayerState.Instance()->PlayerCommendations;
         }
-
+        
         private void PlayCongratulations(int numberOfMatchMadePlayers, int commendsObtained)
         {
             PluginLog.LogDebug("Playing sound for {0} commends obtained of a maximum of {1}", commendsObtained,
                                numberOfMatchMadePlayers);
 
             void Func(Configuration.SubConfiguration config) =>
-                SoundEngine.PlaySound(config.GetFilePath(), config.Volume);
+                SoundEngine.PlaySound(config.GetFilePath(), config.ApplySfxVolume, config.Volume);
 
             if (commendsObtained == 7)
             {
