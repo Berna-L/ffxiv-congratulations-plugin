@@ -1,10 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using Dalamud.Logging;
 using Dalamud.Utility;
-using Lumina.Data;
 using NAudio.Wave;
 
 namespace Congratulations;

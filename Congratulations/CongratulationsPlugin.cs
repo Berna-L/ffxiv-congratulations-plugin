@@ -43,6 +43,11 @@ namespace Congratulations
             Service.ClientState.TerritoryChanged += OnTerritoryChange;
             Service.Framework.Update += OnUpdate;
             Service.ClientState.Login += OnLogin;
+
+            if (Service.ClientState.IsLoggedIn)
+            {
+                OnLogin(null, EventArgs.Empty);
+            }
         }
 
         private void OnLogin(object? sender, EventArgs e)
