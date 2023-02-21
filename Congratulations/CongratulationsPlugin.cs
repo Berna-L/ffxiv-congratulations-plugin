@@ -112,8 +112,7 @@ namespace Congratulations
 
         private static unsafe short GetCurrentCommendationCount()
         {
-            // Change this when PlayerState.Instance()->PlayerCommendations offset is updated
-            return Marshal.ReadInt16((nint)PlayerState.Instance() + 0x478);
+            return PlayerState.Instance()->PlayerCommendations;
         }
 
         private void PlayCongratulations(int numberOfMatchMadePlayers, int commendsObtained)
