@@ -29,6 +29,7 @@ namespace Congratulations
 
             this.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
             this.Configuration.Initialize(Service.PluginInterface);
+            Configuration.Save();
 
             WindowSystem.AddWindow(new ConfigWindow(this));
 

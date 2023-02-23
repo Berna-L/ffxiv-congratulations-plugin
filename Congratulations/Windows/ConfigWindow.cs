@@ -37,11 +37,6 @@ public class ConfigWindow : Window, IDisposable
         DrawSection(configuration.ThreeThirds);
         DrawSection(configuration.AllSevenInAFullParty);
         dialogManager.Draw();
-
-        if (ImGui.Button("Save"))
-        {
-            configuration.Save();
-        }
     }
 
     private void DrawSection(Configuration.SubConfiguration config)
@@ -51,6 +46,7 @@ public class ConfigWindow : Window, IDisposable
         if (ImGui.Checkbox("Play sound", ref playSound))
         {
             config.PlaySound = playSound;
+            configuration.Save();
         }
 
         if (config.PlaySound)
@@ -59,6 +55,7 @@ public class ConfigWindow : Window, IDisposable
             if (ImGui.SliderInt("Volume", ref volume, 0, 100))
             {
                 config.Volume = volume;
+                configuration.Save();
             }
 
             ImGui.SameLine();
@@ -75,6 +72,7 @@ public class ConfigWindow : Window, IDisposable
             if (ImGui.Checkbox("Affected by the game's sound effects volume", ref applySfxVolume))
             {
                 config.ApplySfxVolume = applySfxVolume;
+                configuration.Save();
             }
             ImGui.SameLine();
             ImGuiComponents.HelpMarker("If enabled, consider the volume set here to be in relation to the game's other SFX," +
@@ -85,6 +83,7 @@ public class ConfigWindow : Window, IDisposable
             if (ImGui.Checkbox("Use custom sound", ref useCustomSound))
             {
                 config.UseCustomSound = useCustomSound;
+                configuration.Save();
             }
 
             if (config.UseCustomSound)
@@ -99,6 +98,7 @@ public class ConfigWindow : Window, IDisposable
                     if (success && paths.Count > 0)
                     {
                         config.CustomFilePath = paths[0];
+                        configuration.Save();
                     }
                 }
 
