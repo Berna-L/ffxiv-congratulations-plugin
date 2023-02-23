@@ -121,7 +121,7 @@ namespace Congratulations
                                numberOfMatchMadePlayers);
 
             void Func(Configuration.SubConfiguration config) =>
-                SoundEngine.PlaySound(config.GetFilePath(), config.ApplySfxVolume, config.Volume);
+                SoundEngine.PlaySound(config.GetFilePath(), config.ApplySfxVolume, config.Volume * 0.01f);
 
             if (commendsObtained == 7)
             {
