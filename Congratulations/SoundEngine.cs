@@ -6,23 +6,12 @@ using Dalamud.Logging;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 using NAudio.Wave;
+using static Congratulations.Common.GameSettings;
 
 namespace Congratulations;
 
 public static class SoundEngine
 {
-    private static float GetEffectiveSfxVolume()
-    {
-        if (GameConfig.System.GetBool(ConfigOption.IsSndSe) ||
-            GameConfig.System.GetBool(ConfigOption.IsSndMaster))
-        {
-            return 0;
-        }
-        return GameConfig.System.GetUInt(ConfigOption.SoundSe)/100f * (GameConfig.System.GetUInt(ConfigOption.SoundMaster)/100f);
-    }
-
-
-    
     // Copied from PeepingTom plugin, by ascclemens:
     // https://git.anna.lgbt/ascclemens/PeepingTom/src/commit/3749a6b42154a51397733abb2d3b06a47915bdcc/Peeping%20Tom/TargetWatcher.cs#L162
     public static void PlaySound(string? path, bool applySfxVolume, float volume = 1.0f)
