@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Authors></Authors>
     <Company></Company>
-    <Version>1.2.1.0</Version>
+    <Version>1.2.2.0</Version>
     <Description>Get aurally rewarded when you get commended on duties.</Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/Berna-L/ffxiv-congratulations-plugin</PackageProjectUrl>
@@ -31,7 +31,11 @@
     <DalamudLibPath>$(DALAMUD_HOME)/</DalamudLibPath>
   </PropertyGroup>
 
-  <ItemGroup>
+    <PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">
+        <DalamudLibPath>$(HOME)/Library/Application Support/XIV on Mac/dalamud/Hooks/dev/</DalamudLibPath>
+    </PropertyGroup>
+
+    <ItemGroup>
     <PackageReference Include="DalamudPackager" Version="2.1.10" />
     <PackageReference Include="NAudio.Wasapi" Version="2.1.0" />
     <Reference Include="FFXIVClientStructs">
