@@ -120,8 +120,13 @@ namespace Congratulations
             PluginLog.LogDebug("Playing sound for {0} commends obtained of a maximum of {1}", commendsObtained,
                                numberOfMatchMadePlayers);
 
-            void Func(Configuration.SubConfiguration config) =>
-                SoundEngine.PlaySound(config.GetFilePath(), config.ApplySfxVolume, config.Volume * 0.01f);
+            void Func(Configuration.SubConfiguration config)
+            {
+                if (config.PlaySound)
+                {
+                    SoundEngine.PlaySound(config.GetFilePath(), config.ApplySfxVolume, config.Volume * 0.01f);
+                }
+            }
 
             if (commendsObtained == 7)
             {
