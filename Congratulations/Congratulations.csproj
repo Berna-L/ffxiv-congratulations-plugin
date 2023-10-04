@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Authors></Authors>
     <Company></Company>
-    <Version>1.2.2.0</Version>
+    <Version>1.2.3.0</Version>
     <Description>Get aurally rewarded when you get commended on duties.</Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/Berna-L/ffxiv-congratulations-plugin</PackageProjectUrl>
@@ -36,7 +36,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-    <PackageReference Include="DalamudPackager" Version="2.1.10" />
+    <PackageReference Include="DalamudPackager" Version="2.1.12" />
     <PackageReference Include="NAudio.Wasapi" Version="2.1.0" />
     <Reference Include="FFXIVClientStructs">
       <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>

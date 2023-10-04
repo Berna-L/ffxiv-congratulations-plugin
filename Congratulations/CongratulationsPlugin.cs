@@ -5,6 +5,7 @@ using Congratulations.Windows;
 using Dalamud.Game;
 using Dalamud.Interface.Windowing;
 using Dalamud.Logging;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 
 namespace Congratulations
@@ -22,6 +23,7 @@ namespace Congratulations
         private int largestPartySize;
         private int currentPartySize;
         private int lastAreaPartySize;
+        private ConfigWindow configWindow;
 
         public CongratulationsPlugin(DalamudPluginInterface pluginInterface)
         {
@@ -31,7 +33,8 @@ namespace Congratulations
             this.Configuration.Initialize(Service.PluginInterface);
             Configuration.Save();
 
-            WindowSystem.AddWindow(new ConfigWindow(this));
+            configWindow = new ConfigWindow(this);
+            WindowSystem.AddWindow(configWindow);
 
             Service.CommandManager.AddHandler(CommandName, new CommandInfo(OnConfigCommand)
             {
@@ -46,30 +49,30 @@ namespace Congratulations
 
             if (Service.ClientState.IsLoggedIn)
             {
-                OnLogin(null, EventArgs.Empty);
+                OnLogin();
             }
         }
 
-        private void OnLogin(object? sender, EventArgs e)
+        private void OnLogin()
         {
             this.lastCommendationCount = GetCurrentCommendationCount();
-            PluginLog.LogDebug("Starting commendations: {0}", lastCommendationCount);
+            Service.PluginLog.Debug("Starting commendations: {0}", lastCommendationCount);
 
             currentPartySize = GetCurrentPartySize();
             lastAreaPartySize = currentPartySize;
             largestPartySize = currentPartySize;
-            PluginLog.LogDebug("Starting party size: {0}", largestPartySize);
+            Service.PluginLog.Debug("Starting party size: {0}", largestPartySize);
         }
 
         //Called each frame or something?
-        private void OnUpdate(Framework framework)
+        private void OnUpdate(IFramework framework)
         {
             if (!Service.ClientState.IsLoggedIn) return;
             currentPartySize = GetCurrentPartySize();
             // If the current party size is bigger than it was last update, we update the largest party size
             if (currentPartySize > largestPartySize)
             {
-                PluginLog.LogDebug("Party grew from {0} to {1}", largestPartySize, currentPartySize);
+                Service.PluginLog.Debug("Party grew from {0} to {1}", largestPartySize, currentPartySize);
                 largestPartySize = currentPartySize;
             }
         }
@@ -77,17 +80,17 @@ namespace Congratulations
         // Called whenever the WoL changes location (e.g. from the world to an instanced duty)
         // BTW, the party is formed/dissolved *after* this is called, which explains the somewhat
         // weird logic that happens here.
-        private void OnTerritoryChange(object? sender, ushort @ushort)
+        private void OnTerritoryChange(ushort @ushort)
         {
             if (!Service.ClientState.IsLoggedIn) return;
-            PluginLog.LogDebug("territory changed");
+            Service.PluginLog.Debug("territory changed");
             var currentCommendationCount = GetCurrentCommendationCount();
 
             // If the WoL commendations went up when changing location
             // (i.e. a duty has finished and the WoL left the instance)
             if (currentCommendationCount > lastCommendationCount)
             {
-                PluginLog.Debug("Commends changed from {0} to {1}", lastCommendationCount, currentCommendationCount);
+                Service.PluginLog.Debug("Commends changed from {0} to {1}", lastCommendationCount, currentCommendationCount);
                 // lastAreaPartySize = party size BEFORE joining the duty (that can't commend you).
                 // largestPartySize = party size INSIDE the duty (including those that can and can't commend you).
                 // the remainder is the number of matchmade players.
@@ -99,7 +102,7 @@ namespace Congratulations
             lastCommendationCount = currentCommendationCount;
             lastAreaPartySize = currentPartySize;
             currentPartySize = GetCurrentPartySize();
-            PluginLog.Debug("Party size reset from {0} to {1}", largestPartySize, currentPartySize);
+            Service.PluginLog.Debug("Party size reset from {0} to {1}", largestPartySize, currentPartySize);
             largestPartySize = currentPartySize;
         }
 
@@ -117,8 +120,8 @@ namespace Congratulations
         
         private void PlayCongratulations(int numberOfMatchMadePlayers, int commendsObtained)
         {
-            PluginLog.LogDebug("Playing sound for {0} commends obtained of a maximum of {1}", commendsObtained,
-                               numberOfMatchMadePlayers);
+            Service.PluginLog.Debug("Playing sound for {0} commends obtained of a maximum of {1}", commendsObtained,
+                              numberOfMatchMadePlayers);
 
             void Func(Configuration.SubConfiguration config)
             {
@@ -163,7 +166,7 @@ namespace Congratulations
         private void OnConfigCommand(string command, string args)
         {
             // in response to the slash command, just display our main ui
-            WindowSystem.GetWindow(ConfigWindow.Title)!.IsOpen = true;
+            configWindow.IsOpen = true;
         }
 
         private void DrawUserInterface()
@@ -173,7 +176,7 @@ namespace Congratulations
 
         public void DrawConfigWindow()
         {
-            WindowSystem.GetWindow(ConfigWindow.Title)!.IsOpen = true;
+            configWindow!.IsOpen = true;
         }
     }
 }

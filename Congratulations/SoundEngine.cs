@@ -18,7 +18,7 @@ public static class SoundEngine
     {
         if (path.IsNullOrEmpty() || !File.Exists(path))
         {
-            PluginLog.Error($"Could not find file: {path}");
+            Service.PluginLog.Error($"Could not find file: {path}");
         }
 
         var effectiveVolume = applySfxVolume ? volume * GetEffectiveSfxVolume() : volume;
@@ -29,7 +29,7 @@ public static class SoundEngine
             try {
                 reader = new MediaFoundationReader(path);
             } catch (Exception e) {
-                PluginLog.LogError(e.Message);
+                Service.PluginLog.Error(e.Message);
                 return;
             }
             
@@ -50,7 +50,7 @@ public static class SoundEngine
                         Thread.Sleep(500);
                     }
                 } catch (Exception ex) {
-                    PluginLog.LogError(ex, "Exception playing sound");
+                    Service.PluginLog.Error(ex, "Exception playing sound");
                 }
             }
         }).Start();
